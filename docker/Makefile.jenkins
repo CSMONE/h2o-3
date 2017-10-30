@@ -22,7 +22,8 @@ build-h2o-3:
 	./gradlew -PdoCheckStyle check -x test
 
 warmup-caches:
-	./gradlew build
+	@$(MAKE) -f $(THIS_FILE) build-h2o-3
+	./gradlew cpLibs
 
 test-package-py:
 	cd h2o-py/tests/ && rm -f -r testdir_hdfs

@@ -11,9 +11,8 @@ def call(customEnv, buildConfig, timeoutValue, timeoutUnit, block) {
   withEnv(customEnv) {
     timeout(time: timeoutValue, unit: timeoutUnit) {
       docker.withRegistry("https://${registry}") {
-        sh "mkdir -p gradle-user-home"
         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: AWS_CREDENTIALS_ID, secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-          docker.image(image).inside('-v /home/0xdiag/smalldata:/home/0xdiag/smalldata -v /home/0xdiag/bigdata:/home/0xdiag/bigdata -v \${WORKSPACE}/gradle-user-home/:\${WORKSPACE}/gradle-user-home') {
+          docker.image(image).inside('-v /home/0xdiag/smalldata:/home/0xdiag/smalldata -v /home/0xdiag/bigdata:/home/0xdiag/bigdata') {
             sh 'id'
             sh 'printenv'
             block()
